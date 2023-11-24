@@ -1,0 +1,43 @@
+/* CloudStoreTable.css */
+
+.table-container {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.thead-dark {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  border: 1px solid #dc3545;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border: 1px solid #bd2130;
+}
+
+/* Optional: Add some responsive styling */
+@media (max-width: 768px) {
+  .table-container {
+    margin: 20px;
+  }
+}
