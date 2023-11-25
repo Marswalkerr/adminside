@@ -1,4 +1,91 @@
-/* CloudStoreTable.css */
+.tabs{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.buy, .sell{
+  height: 30px;
+  width: 50vw;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+  cursor: pointer;
+}
+
+.sell{
+  background-color: rgb(45, 168, 45);
+}
+
+.buy p, .sell p{
+  color: white;
+  position: relative;
+}
+
+.buy, .sell{
+  position: relative;
+}
+
+.buy:hover::after, .sell:hover::after {
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+.buy::after, .sell::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #ff5f3b 0%, rgb(248, 39, 2) 100%);
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.4s cubic-bezier(0.82, 0.02, 0.13, 1.26);
+}
+
+.table input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  border: 2px solid #007bff; /* Blue border color */
+  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.table input[type="checkbox"]:checked {
+  background-color: #007bff; /* Blue background color when checked */
+  border-color: #007bff;
+  color: #fff;
+}
+
+.table input[type="checkbox"]::before {
+  content: '\2713'; /* Check mark character */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 12px; /* Adjust font size as needed */
+  display: none;
+}
+
+.table input[type="checkbox"]:checked::before {
+  display: block;
+}
+
+.table input[type="checkbox"]:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  border-color: #0056b3;
+}
 
 .table-container {
   max-width: 800px;
@@ -8,7 +95,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  margin-top: 1px;
 }
 
 .table th,
