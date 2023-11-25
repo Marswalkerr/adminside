@@ -21,8 +21,8 @@ function App() {
     if (isAdminLoggedIn) {
       // Store the login state in localStorage
 
-      setCookie('isAdminLoggedIn', true, {parh: '/'});
-    } 
+      setCookie('isAdminLoggedIn', true, { parh: '/' });
+    }
   }, [isAdminLoggedIn]);
 
   const handleAdminLogin = () => {
