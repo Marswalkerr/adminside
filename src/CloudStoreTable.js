@@ -18,7 +18,9 @@ const db = getFirestore(app);
 
 const CloudStoreTable = () => {
   const [customerData, setCustomerData] = useState([]);
+  const [editableRow, setEditableRow] = useState(null);
 
+  const [edit, setEdit] = useState(false)
   const addDeleteButton = (docId) => {
     const handleDelete = async () => {
       await deleteDoc(doc(db, 'userInfo', docId));
@@ -26,11 +28,11 @@ const CloudStoreTable = () => {
     };
 
     return (
-      <td>
         <button onClick={handleDelete} className="btn btn-danger">Delete</button>
-      </td>
     );
   };
+
+  
 
     const getAllDataOnce = async () => {
       const querySnapshot = await getDocs(collection(db, 'userInfo'));
@@ -48,22 +50,30 @@ const CloudStoreTable = () => {
       console.log("DATA",customers);
       setCustomerData(customers);
     };
+
+    const onEdit = () => {
+      // setEdit(!edit)
+    }
     
 
-  const addItemToTable = (orderId,orderDate,addLine1, addLine2, isAcceptedFromAdmin, isCancelFromFarmer, pincode, quantity, village, id) => (
-    <tr key={id}>
-      <td>{orderId}</td>
-      <td>{orderDate}</td>
-      <td>{addLine1}</td>
-      <td>{addLine2}</td>
-      <td>{isAcceptedFromAdmin}</td>
-      <td>{isCancelFromFarmer}</td>
-      <td>{pincode}</td>
-      <td>{quantity}</td>
-      <td>{village}</td>
-      {addDeleteButton(id)}
+    const addItemToTable = (customer) => (
+      <tr key={customer.id}>
+      <td>{customer.orderId}</td>
+      <td>{edit ? (<input type='Date' value={customer.orderDate?.toDate()}/>): (customer.orderDate?.toDate()?.toLocaleString())}</td>
+      <td>{edit ? (<input type='text' value={customer.addLine1}/>):(customer.addLine1)}</td> 
+      <td>{edit ? (<input type='text' value={customer.addLine2}/>):(customer.addLine2)}</td>
+      <td>{edit ? (<input type='number' value={customer.pincode}/>):(customer.pincode)}</td>
+      <td>{edit ? (<input type='number' value={customer.quantity}/>):(customer.quantity)}</td>
+      <td>{edit ? (<input type='village' value={customer.village}/>):(customer.village)}</td>
+      <td><input type="checkbox" checked={customer.isAcceptedFromAdmin} /></td>
+      <td><input type="checkbox" checked={customer.isCancelFromFarmer } /></td>
+      <td>
+        <button onClick={onEdit()}>Edit</button>
+        {addDeleteButton(customer.id)}
+      </td>
     </tr>
-  );
+);
+
 
   useEffect(() => {
     getAllDataOnce();
@@ -77,28 +87,17 @@ const CloudStoreTable = () => {
   <th scope="col">Order Date</th>
   <th scope="col">Address Line 1</th>
   <th scope="col">Address Line 2</th>
-  <th scope="col">Admin Accepted</th>
-  <th scope="col">Cancel by Farmer</th>
   <th scope="col">Pincode</th>
   <th scope="col">Quantity</th>
   <th scope="col">Village</th>
+  <th scope="col">Admin Accepted</th>
+  <th scope="col">Cancel by Farmer</th>
   <th scope="col">Actions</th>
 </tr>
 
       </thead>
       <tbody>
-        {customerData.map(customer => addItemToTable(
-          customer?.orderId ,
-          customer?.orderDate?.toDate()?.toLocaleString() ,
-          customer?.addLine1,
-          customer?.addLine2,
-          customer?.isAcceptedFromAdmin?.toLocaleString(),
-          customer?.isCancelFromFarmer?.toLocaleString(),
-          customer?.pincode?.toLocaleString(),
-          customer?.quantity?.toLocaleString(),
-          customer?.village?.toLocaleString(),
-          customer.id
-        ))}
+        {customerData.map(customer => addItemToTable(customer))}
       </tbody>
     </table>
   );

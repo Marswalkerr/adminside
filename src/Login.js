@@ -1,39 +1,41 @@
 // Login.js
-import React, { useState } from "react";
-import "./Login.css";
 
-function Login({ onAdminLogin }) {
+import React, { useState } from 'react';
+import './Login.css';
+
+function Login({ onAdminLogin, adminCredentials, onInputChange }) {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const database = [
     {
-      username: "organix",
-      password: "organix@123"
-    }
+      username: 'organix',
+      password: 'organix123',
+    },
   ];
 
   const errors = {
-    uname: "invalid username",
-    pass: "invalid password"
+    uname: 'invalid username',
+    pass: 'invalid password',
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    var { uname, pass } = document.forms[0];
-
-    const userData = database.find((user) => user.username === uname.value);
+    const userData = database.find(
+      (user) => user.username === adminCredentials.username
+    );
 
     if (userData) {
-      if (userData.password !== pass.value) {
-        setErrorMessages({ name: "pass", message: errors.pass });
+      console.log("userData ", userData)
+      if (userData.password !== adminCredentials.password) {
+        setErrorMessages({ name: 'pass', message: errors.pass });
       } else {
         setIsSubmitted(true);
         onAdminLogin();
       }
     } else {
-      setErrorMessages({ name: "uname", message: errors.uname });
+      setErrorMessages({ name: 'uname', message: errors.uname });
     }
   };
 
@@ -47,13 +49,25 @@ function Login({ onAdminLogin }) {
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <label className="left">Username </label>
-          <input type="text" name="uname" required />
-          {renderErrorMessage("uname")}
+          <input
+            type="text"
+            name="username"
+            value={adminCredentials.username}
+            onChange={onInputChange}
+            required
+          />
+          {renderErrorMessage('uname')}
         </div>
         <div className="input-container">
           <label className="left">Password </label>
-          <input type="password" name="pass" required />
-          {renderErrorMessage("pass")}
+          <input
+            type="password"
+            name="password"
+            value={adminCredentials.password}
+            onChange={onInputChange}
+            required
+          />
+          {renderErrorMessage('pass')}
         </div>
         <div className="button-container">
           <input type="submit" />

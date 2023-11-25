@@ -1,33 +1,34 @@
 // App.js
 
 import React, { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import Login from './Login';
 import CloudStoreTable from './CloudStoreTable';
 import './App.css';
 
 function App() {
+  const [cookie, setCookie] = useCookies();
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
-    localStorage.getItem('isAdminLoggedIn') === 'true'
+    cookie.isAdminLoggedIn === true
   );
   const [adminCredentials, setAdminCredentials] = useState({
     username: '',
     password: '',
   });
 
+
   useEffect(() => {
     if (isAdminLoggedIn) {
       // Store the login state in localStorage
-      localStorage.setItem('isAdminLoggedIn', 'true');
-    } else {
-      // Remove the login state from localStorage
-      localStorage.removeItem('isAdminLoggedIn');
-    }
+
+      setCookie('isAdminLoggedIn', true, {parh: '/'});
+    } 
   }, [isAdminLoggedIn]);
 
   const handleAdminLogin = () => {
     // For simplicity, hardcoding admin credentials
     const correctUsername = 'organix';
-    const correctPassword = 'organix@123';
+    const correctPassword = 'organix123';
 
     if (
       adminCredentials.username === correctUsername &&
